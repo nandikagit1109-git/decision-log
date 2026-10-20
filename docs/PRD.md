@@ -149,5 +149,11 @@ scripts/generate-assets.mjs  OG image + PNG favicon from SVG
 - [x] Privacy page carries all 8 required sections incl. AI + no-analytics disclosure
 - [x] Splash renders and removes itself (timer fallback fixed a background-tab bug where
       requestAnimationFrame never fired and the splash blocked all clicks)
-- [ ] Deployed URL loads with correct content types and titles
-- [ ] `VITE_SITE_URL` and `VITE_FEEDBACK_ENDPOINT` set in Vercel before launch
+- [x] Deployed URL loads with correct content types and titles: all four routes return 200
+      (`text/html`), PNGs return `image/png`, unique titles per page, OG tags carry the real
+      `https://decision-log-beige.vercel.app` URL, React renders on the live origin, console clean
+- [x] `VITE_SITE_URL` set in Vercel (production env var) and redeployed
+- [ ] `VITE_FEEDBACK_ENDPOINT` (Formspree) — owner action: create the free Formspree form, then
+      add the endpoint as `VITE_FEEDBACK_ENDPOINT` in Vercel → Settings → Environment Variables
+      and redeploy. Until then the form falls back to the visitor's email app.
+- [ ] Replace `CONTACT_EMAIL` in `src/site-config.ts` (currently `hello@decisionlog.example`)
