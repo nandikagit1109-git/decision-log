@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank you | Decision Log</title>
+    <meta name="robots" content="noindex" />
+    <meta name="description" content="Your message is on its way — here's what happens next." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon-32.png" />
+    <meta name="theme-color" content="#4f46e5" />
+
+    <style>
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #f7f6f2;
+        display: grid;
+        place-items: center;
+        z-index: 100;
+        transition: opacity 0.25s ease;
+      }
+      #splash.gone {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash-mark {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        background: #4f46e5;
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        font-family: Georgia, serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash" aria-hidden="true"><span class="splash-mark">✓</span></div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import type { Decision } from "../types";
 import { newId } from "../storage";
 import { addDays, formatLong, todayISO } from "../date";
+import { detectDistressInFields, distressMessage } from "../lib/safety";
 
 interface Props {
   /** Present when editing an existing decision. */
@@ -21,6 +22,12 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
   const [confidence, setConfidence] = useState(initial?.confidence ?? 3);
   const [reviewOn, setReviewOn] = useState(initial?.reviewOn ?? addDays(todayISO(), 30));
   const [error, setError] = useState<string | null>(null);
+  const [distress, setDistress] = useState(false);
+
+  /** Re-runs the local safety check; never blocks, never stores anything. */
+  function checkSafety(fields: Record<string, string>) {
+    setDistress(detectDistressInFields(fields));
+  }
 
   function submit(e: FormEvent) {
     e.preventDefault();
@@ -49,7 +56,9 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
   }
 
   function setOption(index: number, value: string) {
-    setOptions(options.map((o, i) => (i === index ? value : o)));
+    const next = options.map((o, i) => (i === index ? value : o));
+    setOptions(next);
+    checkSafety({ title, context, choice, reasoning, options: next.join(" ") });
   }
 
   return (
@@ -67,6 +76,13 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
           onChange={(e) => {
             setTitle(e.target.value);
             setError(null);
+            checkSafety({
+              title: e.target.value,
+              context,
+              choice,
+              reasoning,
+              options: options.join(" "),
+            });
           }}
         />
       </label>
@@ -78,7 +94,16 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
             value={context}
             rows={4}
             placeholder="What was going on? What prompted the decision?"
-            onChange={(e) => setContext(e.target.value)}
+            onChange={(e) => {
+              setContext(e.target.value);
+              checkSafety({
+                title,
+                context: e.target.value,
+                choice,
+                reasoning,
+                options: options.join(" "),
+              });
+            }}
           />
         </label>
 
@@ -127,6 +152,13 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
           onChange={(e) => {
             setChoice(e.target.value);
             setError(null);
+            checkSafety({
+              title,
+              context,
+              choice: e.target.value,
+              reasoning,
+              options: options.join(" "),
+            });
           }}
         />
       </label>
@@ -137,7 +169,16 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
           value={reasoning}
           rows={4}
           placeholder="Why this option? What did you expect to happen?"
-          onChange={(e) => setReasoning(e.target.value)}
+          onChange={(e) => {
+            setReasoning(e.target.value);
+            checkSafety({
+              title,
+              context,
+              choice,
+              reasoning: e.target.value,
+              options: options.join(" "),
+            });
+          }}
         />
       </label>
 
@@ -171,6 +212,12 @@ export default function DecisionForm({ initial, onSave, onCancel }: Props) {
           </small>
         </label>
       </div>
+
+      {distress && (
+        <p className="distress-note" role="note">
+          {distressMessage()}
+        </p>
+      )}
 
       {error && <p className="form-error">{error}</p>}
 

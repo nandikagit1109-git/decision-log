@@ -2,15 +2,65 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decision Log — Remember why you decided</title>
     <meta
       name="description"
-      content="Decision Log — record why you made a decision, then review it later to see how it turned out."
+      content="A free, private decision journal. Record the context, options and reasoning behind your choices, then review them later to see what worked."
     />
-    <title>Decision Log</title>
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <meta property="og:title" content="Decision Log — Remember why you decided" />
+    <meta
+      property="og:description"
+      content="Record why you made a decision, then review it later to see how it turned out. Free, private, no account."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Decision Log — Remember why you decided" />
+    <meta
+      name="twitter:description"
+      content="Record why you made a decision, then review it later to see how it turned out. Free, private, no account."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon-32.png" />
+    <meta name="theme-color" content="#4f46e5" />
+
+    <style>
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #f7f6f2;
+        display: grid;
+        place-items: center;
+        z-index: 100;
+        transition: opacity 0.25s ease;
+      }
+      #splash.gone {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash-mark {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        background: #4f46e5;
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        font-family: Georgia, serif;
+      }
+    </style>
   </head>
   <body>
+    <div id="splash" aria-hidden="true"><span class="splash-mark">✓</span></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

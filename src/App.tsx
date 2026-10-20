@@ -153,6 +153,10 @@ export default function App() {
       </header>
 
       <main className="main">
+        <p className="data-notice">
+          Everything you write stays in this browser — nothing is sent to a server. <a href="/privacy">Privacy policy</a>
+        </p>
+
         {form && (
           <DecisionForm
             key={form.mode === "edit" ? form.decision.id : "new"}
@@ -238,6 +242,10 @@ export default function App() {
             </button>
           </div>
         )}
+
+        <p className="app-footnote">
+          Built with AI coding tools — but no AI features read or process your decisions. <a href="/">Home</a> · <a href="/privacy">Privacy</a>
+        </p>
       </main>
 
       {outcomeFor && (
